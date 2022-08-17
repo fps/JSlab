@@ -138,6 +138,7 @@ function jslab_create_new_iopair(jslab_parent_node, jslab_text) {
             if (this.selectionStart == 0 && this.selectionEnd == 0) {
                 console.log("backspace on first char");
                 if (jslab_iopair_div.previousSibling) {
+                    console.log("focussing the previous sibling...");
                     jslab_get_text_input(jslab_iopair_div.previousSibling).focus();
                 }
 
