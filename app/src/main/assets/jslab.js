@@ -143,6 +143,7 @@ function jslab_create_new_iopair(jslab_parent_node, jslab_text) {
                 }
 
                 // Just safeguard against emptying the whole thing
+                console.log("parent.childElementCount: " + jslab_parent_node.childElementCount);
                 if (jslab_parent_node.childElementCount > 1) {
                     jslab_parent_node.removeChild(jslab_iopair_div);
                 }
