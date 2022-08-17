@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">JSlab</string>
+    <string name="preferences_key">preferences_key</string>
+</resources>

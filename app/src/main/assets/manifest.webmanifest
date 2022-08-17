@@ -1,0 +1,14 @@
+{
+  "name": "PWAJS",
+  "short_name": "PWAJS",
+  "start_url": ".",
+  "display": "browser",
+  "background_color": "#fff",
+  "description": "A progressive web app just giving the user a JS repl on mobile devices",
+  "icons" : [     
+    {
+      "src": "download.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    } ] 
+}

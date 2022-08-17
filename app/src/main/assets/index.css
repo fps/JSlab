@@ -1,0 +1,129 @@
+html {
+    box-sizing: border-box;
+}
+
+*, *:before, *:after {
+    box-sizing: inherit;
+}
+
+#jslab_main {
+    padding: 0.2em;
+}
+
+li {
+    margin: 0.1em;
+    padding: 0.1em;
+}
+
+
+#per-input-menu-wrapper {
+    text-size: xx-large;
+    position: fixed;
+    background-color: #000;
+    margin: 2.1em 0em 0 0;
+    padding: 0.3em;
+    right: 0;
+    color: #fff;
+    display: none;
+    /*float: right; */
+}
+
+#per-input-menu {
+    text-size: large;
+}
+
+.per-input {
+    margin: 0.5em;
+    padding: 0;
+    fill: #fff;
+    stroke: #fff;
+    font-size: x-large;
+}
+
+path {
+    fill: #fff;
+    stroke: #fff;
+}
+
+.input-wrapper {
+    display: flex;
+    background-color: #b6cdd8;
+    min-width: 100%;
+    max-width: 100%;
+    border-top-left-radius: 0.4em;
+    border-top-right-radius: 0.4em;
+    padding: 0.3em;
+}
+
+.input-button {
+    flex-grow: 0;
+    padding-left: 0.5em;
+    background-color: #b6cdd8;
+    display: none;
+}
+
+.input-field {
+    background-color: #b6cdd8;
+    box-sizing: border-box;
+    /* padding-top: 0.1em; */
+    /* padding-bottom: 0.1em; */
+    /* margin-top: 0.1em; */
+    /* margin-bottom: 0.1em; */
+    font-size: large;
+    border-style: none;
+    font-family: monospace;
+    /*
+    word-break: break-word;
+    outline: none;
+    */
+    min-height: 1em;
+    flex-grow: 1;
+    width: 100%;
+    /* display: block; */
+    resize: none;
+    overflow: hidden;
+}
+
+form { width: 100%; }
+
+body {
+    min-width: 100%;
+    max-width: 100%;
+    padding: 0em;
+    margin: 0em;
+    font-family: monospace;
+    font-size: large;
+    background-color: #305080;
+}
+
+/* div { padding: 0; margin: 0; } */
+
+.output {
+    /* margin-top: 0.1em; */
+    margin-bottom: 0.5em;
+    padding: 0.3em;
+    border-top-color: #a5bac2;
+    border-width: 0.1em 0 0 0;
+    border-style: solid none none none;
+    border-bottom-left-radius: 0.4em;
+    border-bottom-right-radius: 0.4em;
+    font-size: large;
+    background-color: #e8f1f2;
+    /* background-dolor: #303030; */
+    font-family: monospace;
+    /* border-style: none; */
+    /* border-width: 1px; */
+    word-break: break-word;
+}
+
+.active {
+    opacity: 100%;
+    transition: opacity 1s;
+}
+
+.inactive {
+    opacity: 30%;
+    transition: opacity 1s;
+}
+
+.hidden { visibility: hidden; opacity: 0; transition: opacity 0.5s, visibility 0.5s; }
