@@ -58,5 +58,11 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
     public void addItem(String uuid) { mUUIDs.add(uuid); }
 
     public List<String> getUUIDs() { return mUUIDs; }
+
+    public void removeItem(int index) {
+        if (mUUIDs.size() > (index - 1)) {
+            mUUIDs.remove(index);
+        }
+    }
     // public void setCount(int count) { mCount = count; }
 }

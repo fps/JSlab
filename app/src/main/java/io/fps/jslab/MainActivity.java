@@ -29,6 +29,8 @@ public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding binding;
     protected SectionsPagerAdapter sectionsPagerAdapter;
 
+    protected boolean fabsVisible = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,13 +59,39 @@ public class MainActivity extends AppCompatActivity {
         tabs.setupWithViewPager(viewPager);
 
         FloatingActionButton fab = binding.fab;
-
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // sectionsPagerAdapter.setCount(sectionsPagerAdapter.getCount()+1);
+                if (fabsVisible) {
+                    binding.fabAdd.setVisibility(View.GONE);
+                    binding.fabRemove.setVisibility(View.GONE);
+                    fabsVisible = false;
+                } else {
+                    // sectionsPagerAdapter.setCount(sectionsPagerAdapter.getCount()+1);
+                    binding.fabAdd.setVisibility(View.VISIBLE);
+                    binding.fabRemove.setVisibility(View.VISIBLE);
+                    fabsVisible = true;
+                }
+            }
+        });
+
+        FloatingActionButton fabAdd = binding.fabAdd;
+        fabAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
                 sectionsPagerAdapter.addItem(UUID.randomUUID().toString());
                 sectionsPagerAdapter.notifyDataSetChanged();
+                fab.callOnClick();
+            }
+        });
+
+        FloatingActionButton fabRemove = binding.fabRemove;
+        fabRemove.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                sectionsPagerAdapter.removeItem(viewPager.getCurrentItem());
+                sectionsPagerAdapter.notifyDataSetChanged();
+                fab.callOnClick();
             }
         });
     }
