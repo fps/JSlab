@@ -16,6 +16,8 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import java.util.UUID;
+
 import io.fps.jslab.R;
 import io.fps.jslab.databinding.FragmentMainBinding;
 
@@ -24,18 +26,18 @@ import io.fps.jslab.databinding.FragmentMainBinding;
  */
 public class PlaceholderFragment extends Fragment {
 
-    private static final String ARG_SECTION_NUMBER = "section_number";
+    private static final String ARG_UUID = "uuid";
 
     private PageViewModel pageViewModel;
     private FragmentMainBinding binding;
 
     private WebView webView;
-    private Bundle webViewBundle = null;
+    // private Bundle webViewBundle = null;
 
-    public static PlaceholderFragment newInstance(int index) {
+    public static PlaceholderFragment newInstance(String uuid) {
         PlaceholderFragment fragment = new PlaceholderFragment();
         Bundle bundle = new Bundle();
-        bundle.putInt(ARG_SECTION_NUMBER, index);
+        bundle.putString(ARG_UUID, uuid);
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -44,11 +46,11 @@ public class PlaceholderFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         pageViewModel = new ViewModelProvider(this).get(PageViewModel.class);
-        int index = 1;
+        String uuid = UUID.randomUUID().toString();
         if (getArguments() != null) {
-            index = getArguments().getInt(ARG_SECTION_NUMBER);
+            uuid = getArguments().getString(ARG_UUID);
         }
-        pageViewModel.setIndex(index);
+        pageViewModel.setUUID(uuid);
     }
 
     @Override
@@ -59,7 +61,7 @@ public class PlaceholderFragment extends Fragment {
         binding = FragmentMainBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        int index = pageViewModel.getIndex();
+        String uuid = pageViewModel.getUUID();
         // Log.d("io.fps.jslab", String.format("%d", index));
         webView = binding.sectionLabel;
 
@@ -73,7 +75,7 @@ public class PlaceholderFragment extends Fragment {
             @Override
             public void onPageFinished(WebView view, String url) {
                 Log.d("io.fps.jslab", "finished");
-                view.evaluateJavascript(String.format("jslab_init('tab%d');", index), null);
+                view.evaluateJavascript(String.format("jslab_init('%s');", uuid), null);
                 view.evaluateJavascript("javascript:alert(1);", null);
             }
 
@@ -86,11 +88,14 @@ public class PlaceholderFragment extends Fragment {
             }
         });
 
+        /*
         if (webViewBundle != null) {
             webView.restoreState(webViewBundle);
         } else {
             webView.loadUrl("file:///android_asset/index.html");
         }
+         */
+        webView.loadUrl("file:///android_asset/index.html");
         /*
         pageViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
@@ -103,8 +108,8 @@ public class PlaceholderFragment extends Fragment {
 
     @Override
     public void onPause() {
-        webViewBundle = new Bundle();
-        webView.saveState(webViewBundle);
+        // webViewBundle = new Bundle();
+        // webView.saveState(webViewBundle);
         super.onPause();
     }
 

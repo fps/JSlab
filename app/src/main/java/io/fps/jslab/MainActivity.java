@@ -7,11 +7,14 @@ import android.os.Bundle;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.tabs.TabLayoutMediator;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import androidx.annotation.NonNull;
 import androidx.viewpager.widget.ViewPager;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.viewpager2.widget.ViewPager2;
 
 import android.util.Log;
 import android.view.Menu;
@@ -38,25 +41,36 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        sectionsPagerAdapter = new SectionsPagerAdapter(this, getSupportFragmentManager());
+        sectionsPagerAdapter = new SectionsPagerAdapter(this);
 
         SharedPreferences pref = getSharedPreferences(getString(R.string.preferences_key), Context.MODE_PRIVATE);
         SharedPreferences.Editor edit = pref.edit();
-        Log.d("tabs", String.format("reading tabs %d", pref.getInt("number_of_tabs", 1)));
-        // sectionsPagerAdapter.setCount(pref.getInt("number_of_tabs", 1));
+
         Gson gson = new Gson();
         List<String> uuids = gson.fromJson(pref.getString("uuids", "[]"), new TypeToken<List<String>>() {}.getType());
 
-        for (int index = 0; index < uuids.size(); ++index) {
-            sectionsPagerAdapter.addItem(uuids.get(index));
+        if (uuids.isEmpty()) {
+            sectionsPagerAdapter.addItem(UUID.randomUUID().toString());
+        } else {
+            for (int index = 0; index < uuids.size(); ++index) {
+                sectionsPagerAdapter.addItem(uuids.get(index));
+            }
         }
 
-        ViewPager viewPager = binding.viewPager;
+        ViewPager2 viewPager = binding.viewPager;
         viewPager.setOffscreenPageLimit(50);
         viewPager.setAdapter(sectionsPagerAdapter);
 
         TabLayout tabs = binding.tabs;
-        tabs.setupWithViewPager(viewPager);
+
+        TabLayoutMediator mediator = new TabLayoutMediator(tabs, viewPager, new TabLayoutMediator.TabConfigurationStrategy() {
+            @Override
+            public void onConfigureTab(@NonNull TabLayout.Tab tab, int position) {
+                tab.setText(sectionsPagerAdapter.getUUIDs().get(position).substring(0, 6));
+            }
+        });
+        mediator.attach();
+        // tabs.setupWithViewPager(viewPager);
 
         FloatingActionButton fab = binding.fab;
         fab.setOnClickListener(new View.OnClickListener() {
@@ -90,6 +104,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 sectionsPagerAdapter.removeItem(viewPager.getCurrentItem());
+                if (sectionsPagerAdapter.getItemCount() == 0) {
+                    sectionsPagerAdapter.addItem(UUID.randomUUID().toString());
+                }
                 sectionsPagerAdapter.notifyDataSetChanged();
                 fab.callOnClick();
             }
@@ -98,13 +115,11 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onPause() {
-        Log.d("tabs", String.format("saving tabs %d", sectionsPagerAdapter.getCount()));
         SharedPreferences pref = getSharedPreferences(getString(R.string.preferences_key), Context.MODE_PRIVATE);
         Gson gson = new Gson();
         String uuids = gson.toJson(sectionsPagerAdapter.getUUIDs());
         SharedPreferences.Editor edit = pref.edit();
         edit.putString("uuids", uuids);
-        edit.putInt("number_of_tabs", sectionsPagerAdapter.getCount());
         edit.apply();
 
         super.onPause();
