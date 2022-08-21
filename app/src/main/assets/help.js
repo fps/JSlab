@@ -29,7 +29,7 @@ var introduction = "JSLab is a simple web page that has a thin android app as "
 + "available and the author then just took the path of least resistance.<br>"
 + "JSLab lets you enter JavaScript code which is then passed to the <b>eval()</b> "
 + "function and the result of the call is presented as output.<br>"
-+ "In the end this gives you the whole WebView, an almost complete"
++ "In the end this gives you the whole WebView, an almost complete "
 + "browser, to play around with which is good";
 
 var evaluation = "The code is passed verbatim to eval() and the result is set as innerHTML on "

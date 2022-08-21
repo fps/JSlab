@@ -140,6 +140,7 @@ function jslab_create_new_iopair(jslab_parent_node, jslab_text) {
                 if (jslab_iopair_div.previousSibling) {
                     console.log("focussing the previous sibling...");
                     jslab_get_text_input(jslab_iopair_div.previousSibling).focus();
+                    jslab_get_text_input(jslab_iopair_div.previousSibling).scrollIntoView();
                 }
 
                 // Just safeguard against emptying the whole thing
@@ -219,22 +220,24 @@ function jslab_create_new_iopair(jslab_parent_node, jslab_text) {
 
             if (jslab_iopair_div.nextSibling != null) {
                 jslab_get_text_input(jslab_iopair_div.nextSibling).focus();
+                jslab_get_text_input(jslab_iopair_div.nextSibling).scrollIntoView();
             }
 
             return false;
-
         }
     }
 
     jslab_input_form.onsubmit = function() { };
 
     jslab_text_input.focus();
+    jslab_text_input.scrollIntoView();
     return jslab_iopair_div;
 }
 
 function jslab_append_new_iopair(jslab_parent_node, jslab_text) {
     var new_element = jslab_create_new_iopair(jslab_parent_node, jslab_text);
     jslab_parent_node.appendChild(new_element);
+    new_element.scrollIntoView();
     return new_element;
 }
 
@@ -265,43 +268,3 @@ function jslab_init(prefix) {
        }
     }
 }
-
-/*
-jslab_nav_reset_activation = 0;
-jslab_nav_remove_activation = 0;
-
-function jslab_drain_activations() {
-    jslab_nav_reset_activation = 0.9 * jslab_nav_reset_activation;
-    jslab_nav_remove_activation = 0.9 * jslab_nav_remove_activation;
-    window.setTimeout(jslab_drain_activations, 100)
-}
-
-jslab_drain_activations();
-*/
-
-function jslab_nav_reset() {
-    jslab_nav_reset_activation += 0.3;
-
-    if (jslab_nav_reset_activation < 1) {
-        return;
-    }
-
-    while (jslab_main.firstChild) {
-        jslab_main.removeChild(jslab_main.lastChild);
-    }
-
-    jslab_append_new_iopair(jslab_main);
-}
-
-function jslab_nav_remove() {
-    jslab_nav_remove_activation += 0.5;
-
-    if (jslab_nav_remove_activation < 1) {
-        return;
-    }
-
-    if (jslab_main.childElementCount > 1) {
-        jslab_main.removeChild(jslab_current_input);
-    }
-}
-
