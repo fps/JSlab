@@ -61,4 +61,14 @@
         android:layout_marginBottom="148dp"
         android:visibility="gone"
         app:srcCompat="@android:drawable/ic_menu_delete" />
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_share"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_marginEnd="@dimen/fab_margin"
+        app:backgroundTint="@android:color/holo_orange_dark"
+        android:layout_marginBottom="214dp"
+        android:visibility="gone"
+        app:srcCompat="@android:drawable/ic_menu_share" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -79,11 +79,13 @@ public class MainActivity extends AppCompatActivity {
                 if (fabsVisible) {
                     binding.fabAdd.setVisibility(View.GONE);
                     binding.fabRemove.setVisibility(View.GONE);
+                    binding.fabShare.setVisibility(View.GONE);
                     fabsVisible = false;
                 } else {
                     // sectionsPagerAdapter.setCount(sectionsPagerAdapter.getCount()+1);
                     binding.fabAdd.setVisibility(View.VISIBLE);
                     binding.fabRemove.setVisibility(View.VISIBLE);
+                    binding.fabShare.setVisibility(View.VISIBLE);
                     fabsVisible = true;
                 }
             }

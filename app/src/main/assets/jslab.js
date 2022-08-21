@@ -180,7 +180,7 @@ function jslab_create_new_iopair(jslab_parent_node, jslab_text) {
 
             try {
                 if (jslab_text_input.selectionStart == 0 && jslab_text_input.selectionEnd == 0) {
-                    var jslab_new_input = jslab_create_new_iopair('');
+                    var jslab_new_input = jslab_create_new_iopair(jslab_main, '');
                     jslab_iopair_div.insertAdjacentElement('beforebegin', jslab_new_input);
                     // jslab_get_text_input(jslab_new_input).focus();
                     return false;
@@ -226,9 +226,7 @@ function jslab_create_new_iopair(jslab_parent_node, jslab_text) {
         }
     }
 
-    jslab_input_form.onsubmit = function() {
-
-    };
+    jslab_input_form.onsubmit = function() { };
 
     jslab_text_input.focus();
     return jslab_iopair_div;
@@ -238,22 +236,6 @@ function jslab_append_new_iopair(jslab_parent_node, jslab_text) {
     var new_element = jslab_create_new_iopair(jslab_parent_node, jslab_text);
     jslab_parent_node.appendChild(new_element);
     return new_element;
-}
-
-function jslab_create_new_tab(menu_parent, content_parent) {
-    var tab_icon = document.createElement('div');
-    tab_icon.innerHTML = '―';
-    tab_icon.classList.add('tab-entry');
-    tab_icon.classList.add('tab-entry-active');
-    menu_parent.appendChild(tab_icon);
-
-    var tab_content = document.createElement('div');
-    tab_content.classList.add('tab-content');
-    tab_content.classList.add('tab-content-active');
-
-    jslab_main.appendChild(tab_content);
-
-    jslab_append_new_iopair(tab_content, "");
 }
 
 /* jslab_append_new_iopair(jslab_main); */
