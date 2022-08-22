@@ -3,7 +3,7 @@ var jslab_main = document.getElementById("jslab_main");
 
 var jslab_storage = window.localStorage;
 
-jslab_current_input = null;
+var jslab_current_input = null;
 
 function jslab_el_by_id(id) {
     return document.getElementById(id);
@@ -74,12 +74,12 @@ function jslab_textarea_auto_grow(element) {
     element.style.height = (element.scrollHeight)+"px";
 }
 
-function jslab_create_new_iopair(jslab_parent_node, jslab_text) {
-    console.log("create_new_iopair");
-
+function jslab_create_new_iopair_elements(jslab_parent_node, jslab_text) {
+    console.log("jslab_create_new_iopair_element");
     var jslab_iopair_div = document.createElement('div');
 
     var jslab_input_form = document.createElement('form');
+    jslab_input_form.onsubmit = function() { };
 
     var jslab_input_wrapper_div = document.createElement('div');
     jslab_input_wrapper_div.classList.add('input-wrapper');
@@ -116,6 +116,17 @@ function jslab_create_new_iopair(jslab_parent_node, jslab_text) {
     // jslab_input_form.appendChild(jslab_text_input);
 
     jslab_iopair_div.appendChild(jslab_output_div);
+
+    return jslab_iopair_div;
+}
+
+function jslab_create_new_iopair(jslab_parent_node, jslab_text) {
+    console.log("create_new_iopair");
+
+    var jslab_iopair_div = jslab_create_new_iopair_elements(jslab_parent_node, jslab_text);
+
+    var jslab_text_input = jslab_get_text_input(jslab_iopair_div);
+    var jslab_output = jslab_get_output_div(jslab_iopair_div);
 
     jslab_text_input.onfocus = function() {
         Array.from(document.querySelectorAll('.per-input')).forEach(x => x.classList.remove('inactive'));
@@ -181,6 +192,7 @@ function jslab_create_new_iopair(jslab_parent_node, jslab_text) {
 
             try {
                 if (jslab_text_input.selectionStart == 0 && jslab_text_input.selectionEnd == 0) {
+                    console.log("appending new iopair (selectionStart and selectionEnd == 0");
                     var jslab_new_input = jslab_create_new_iopair(jslab_main, '');
                     jslab_iopair_div.insertAdjacentElement('beforebegin', jslab_new_input);
                     // jslab_get_text_input(jslab_new_input).focus();
@@ -227,14 +239,15 @@ function jslab_create_new_iopair(jslab_parent_node, jslab_text) {
         }
     }
 
-    jslab_input_form.onsubmit = function() { };
-
     jslab_text_input.focus();
     jslab_text_input.scrollIntoView();
+
     return jslab_iopair_div;
 }
 
 function jslab_append_new_iopair(jslab_parent_node, jslab_text) {
+    console.log("jslab_append_new_iopair");
+
     var new_element = jslab_create_new_iopair(jslab_parent_node, jslab_text);
     jslab_parent_node.appendChild(new_element);
     new_element.scrollIntoView();
@@ -252,13 +265,13 @@ function jslab_init(prefix) {
 
        // And put some warm welcome message on the screen...
        // jslab_input.children[0].children[0].value = "welcome";
-       jslab_input.children[0].onsubmit();
+       // jslab_input.children[0].onsubmit();
        // document.forms[0].submit();
     } else {
        var jslab_input_count = parseInt(jslab_storage.getItem('jslab_'+prefix+'_input_count'));
 
        for (var jslab_count = 0; jslab_count < jslab_input_count; ++jslab_count) {
-          console.log('storage');
+          console.log('restoring from storage...');
           // console.log(jslab_storage.getItem('input'+jslab_count));
 
           // var jslab_input = jslab_append_new_input(jslab_main, jslab_storage.getItem('input'+jslab_count));
