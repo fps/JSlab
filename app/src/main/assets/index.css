@@ -71,7 +71,6 @@ path {
     /* margin-bottom: 0.1em; */
     font-size: large;
     border-style: none;
-    font-family: monospace;
     /*
     word-break: break-word;
     outline: none;
@@ -94,6 +93,7 @@ body {
     font-family: monospace;
     font-size: large;
     background-color: #305080;
+    font-family: monospace;
 }
 
 /* div { padding: 0; margin: 0; } */
@@ -110,7 +110,6 @@ body {
     font-size: large;
     background-color: #e8f1f2;
     /* background-dolor: #303030; */
-    font-family: monospace;
     /* border-style: none; */
     /* border-width: 1px; */
     word-break: break-word;
