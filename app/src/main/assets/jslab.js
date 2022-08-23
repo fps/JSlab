@@ -198,16 +198,21 @@ function jslab_create_new_iopair(jslab_parent_node, jslab_text) {
                     // jslab_get_text_input(jslab_new_input).focus();
                     return false;
                 } else {
+                    console.log("input is: " + jslab_text_input.value + " type: " + typeof(jslab_text_input.value));
                     console.log("calling eval(). output follows...");
-                    jslab_output = eval(jslab_text_input.value);
+                    jslab_output = eval.call(null, jslab_text_input.value);
 
                     console.log(jslab_output);
 
-                    if (!jslab_output) {
-                        console.log("no output...");
-                        jslab_output = "undefined"
+                    if (jslab_output === null) {
+                        console.log("output null...");
+                        jslab_output = "null"
                     }
 
+                    if (jslab_output === undefined) {
+                        console.log("output undefined...");
+                        jslab_output = "undefined"
+                    }
 
                     if (jslab_output.tagName) {
                         // console.log('node!');
