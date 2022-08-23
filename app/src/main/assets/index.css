@@ -50,8 +50,8 @@ path {
     background-color: #b6cdd8;
     min-width: 100%;
     max-width: 100%;
-    border-top-left-radius: 0.4em;
-    border-top-right-radius: 0.4em;
+    border-top-left-radius: 0.2em;
+    border-top-right-radius: 0.2em;
     padding: 0.3em;
 }
 
@@ -100,13 +100,13 @@ body {
 
 .output {
     /* margin-top: 0.1em; */
-    margin-bottom: 0.5em;
+    margin-bottom: 0.2em;
     padding: 0.3em;
     border-top-color: #a5bac2;
     border-width: 0.1em 0 0 0;
     border-style: solid none none none;
-    border-bottom-left-radius: 0.4em;
-    border-bottom-right-radius: 0.4em;
+    border-bottom-left-radius: 0.2em;
+    border-bottom-right-radius: 0.2em;
     font-size: large;
     background-color: #e8f1f2;
     /* background-dolor: #303030; */

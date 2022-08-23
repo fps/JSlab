@@ -58,6 +58,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         ViewPager2 viewPager = binding.viewPager;
+        viewPager.setUserInputEnabled(false);
         viewPager.setOffscreenPageLimit(50);
         viewPager.setAdapter(sectionsPagerAdapter);
 
