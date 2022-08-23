@@ -1,4 +1,4 @@
-package io.fps.jslab;
+package eu.fps.dfdx;
 
 import org.junit.Test;
 
