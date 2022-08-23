@@ -151,7 +151,7 @@ function jslab_create_new_iopair(jslab_parent_node, jslab_text) {
                 if (jslab_iopair_div.previousSibling) {
                     console.log("focussing the previous sibling...");
                     jslab_get_text_input(jslab_iopair_div.previousSibling).focus();
-                    jslab_get_text_input(jslab_iopair_div.previousSibling).scrollIntoView();
+                    // jslab_get_text_input(jslab_iopair_div.previousSibling).scrollIntoView();
                 }
 
                 // Just safeguard against emptying the whole thing
@@ -218,6 +218,7 @@ function jslab_create_new_iopair(jslab_parent_node, jslab_text) {
                         // console.log('node!');
                         jslab_iopair_div.replaceChild(jslab_output, jslab_new_output_div)
                     } else {
+                        jslab_new_output_div.out = jslab_output;
                         jslab_new_output_div.innerHTML = jslab_output;
                     }
                 }
@@ -237,7 +238,7 @@ function jslab_create_new_iopair(jslab_parent_node, jslab_text) {
 
             if (jslab_iopair_div.nextSibling != null) {
                 jslab_get_text_input(jslab_iopair_div.nextSibling).focus();
-                jslab_get_text_input(jslab_iopair_div.nextSibling).scrollIntoView();
+                // jslab_get_text_input(jslab_iopair_div.nextSibling).scrollIntoView();
             }
 
             return false;
@@ -245,7 +246,7 @@ function jslab_create_new_iopair(jslab_parent_node, jslab_text) {
     }
 
     jslab_text_input.focus();
-    jslab_text_input.scrollIntoView();
+    // jslab_text_input.scrollIntoView();
 
     return jslab_iopair_div;
 }
@@ -255,7 +256,7 @@ function jslab_append_new_iopair(jslab_parent_node, jslab_text) {
 
     var new_element = jslab_create_new_iopair(jslab_parent_node, jslab_text);
     jslab_parent_node.appendChild(new_element);
-    new_element.scrollIntoView();
+    // new_element.scrollIntoView();
     return new_element;
 }
 
