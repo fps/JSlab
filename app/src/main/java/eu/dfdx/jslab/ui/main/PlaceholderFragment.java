@@ -1,4 +1,4 @@
-package io.fps.jslab.ui.main;
+package eu.dfdx.jslab.ui.main;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -8,18 +8,14 @@ import android.view.ViewGroup;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.TextView;
 
-import androidx.annotation.Nullable;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import java.util.UUID;
 
-import io.fps.jslab.R;
-import io.fps.jslab.databinding.FragmentMainBinding;
+import eu.dfdx.jslab.databinding.FragmentMainBinding;
 
 /**
  * A placeholder fragment containing a simple view.

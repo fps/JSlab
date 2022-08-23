@@ -1,23 +1,11 @@
-package io.fps.jslab.ui.main;
+package eu.dfdx.jslab.ui.main;
 
-import android.content.Context;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.annotation.StringRes;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
-import androidx.fragment.app.FragmentManager;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
-import java.util.ListIterator;
-import java.util.UUID;
-
-import io.fps.jslab.R;
 
 /**
  * A [FragmentPagerAdapter] that returns a fragment corresponding to

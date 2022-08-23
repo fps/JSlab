@@ -1,31 +1,27 @@
-package io.fps.jslab;
+package eu.dfdx.jslab;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import androidx.annotation.NonNull;
-import androidx.viewpager.widget.ViewPager;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager2.widget.ViewPager2;
 
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 
 import java.util.List;
 import java.util.UUID;
 
-import io.fps.jslab.ui.main.SectionsPagerAdapter;
-import io.fps.jslab.databinding.ActivityMainBinding;
+import eu.dfdx.jslab.ui.main.SectionsPagerAdapter;
+import eu.dfdx.jslab.databinding.ActivityMainBinding;
+import eu.dfdx.jslab.R;
 
 public class MainActivity extends AppCompatActivity {
 

@@ -6,7 +6,7 @@ android {
     compileSdk 31
 
     defaultConfig {
-        applicationId "io.fps.jslab"
+        applicationId "eu.dfdx.jslab"
         minSdk 21
         targetSdk 31
         versionCode 1
