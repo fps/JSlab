@@ -289,10 +289,11 @@ function jslab_init(prefix) {
 }
 
 function jslab_share() {
-    var ret = [];
+    var lines = [];
     var jslab_input_count = jslab_main.childElementCount;
     for (count = 0; count < jslab_input_count; ++count) {
-        ret[count] = jslab_get_text_input(jslab_main.children[count]).value;
+        lines[count] = jslab_get_text_input(jslab_main.children[count]).value;
     }
-    return JSON.stringify(ret, null, '  ');
+
+    return lines;
 }

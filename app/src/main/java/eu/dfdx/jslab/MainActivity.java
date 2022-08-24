@@ -9,6 +9,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
 import androidx.annotation.NonNull;
@@ -20,6 +21,7 @@ import android.view.View;
 import android.webkit.ValueCallback;
 import android.webkit.WebView;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -125,9 +127,14 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onReceiveValue(String s) {
                         Log.d("lalala", s);
+                        // Round trip through gson to pretty print...
+                        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+                        String[] lines = gson.fromJson(s, String[].class);
+                        String new_lines = gson.toJson(lines);
+
                         Intent sendIntent = new Intent();
                         sendIntent.setAction(Intent.ACTION_SEND);
-                        sendIntent.putExtra(Intent.EXTRA_TEXT, s);
+                        sendIntent.putExtra(Intent.EXTRA_TEXT, new_lines);
                         sendIntent.setType("text/plain");
 
                         Intent shareIntent = Intent.createChooser(sendIntent, null);
