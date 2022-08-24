@@ -1,6 +1,7 @@
 package eu.dfdx.jslab;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
@@ -14,7 +15,10 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager2.widget.ViewPager2;
 
+import android.util.Log;
 import android.view.View;
+import android.webkit.ValueCallback;
+import android.webkit.WebView;
 
 import java.util.List;
 import java.util.UUID;
@@ -107,6 +111,29 @@ public class MainActivity extends AppCompatActivity {
                     sectionsPagerAdapter.addItem(UUID.randomUUID().toString());
                 }
                 sectionsPagerAdapter.notifyDataSetChanged();
+                fab.callOnClick();
+            }
+        });
+
+        FloatingActionButton fabShare = binding.fabShare;
+        fabShare.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int index = viewPager.getCurrentItem();
+                WebView webView = (WebView)viewPager.getChildAt(0).findViewById(R.id.section_label);
+                webView.evaluateJavascript("jslab_share();", new ValueCallback<String>() {
+                    @Override
+                    public void onReceiveValue(String s) {
+                        Log.d("lalala", s);
+                        Intent sendIntent = new Intent();
+                        sendIntent.setAction(Intent.ACTION_SEND);
+                        sendIntent.putExtra(Intent.EXTRA_TEXT, s);
+                        sendIntent.setType("text/plain");
+
+                        Intent shareIntent = Intent.createChooser(sendIntent, null);
+                        startActivity(shareIntent);
+                    }
+                });
                 fab.callOnClick();
             }
         });
