@@ -288,6 +288,23 @@ function jslab_init(prefix) {
     }
 }
 
+function inp(index) {
+    return jslab_get_text_input(jslab_main.children[index]).value;
+}
+
+function out(index) {
+    var d = jslab_get_output_div(jslab_main.children[index]);
+    if (d.childElementCount) {
+        return d.children[0];
+    } else {
+        return d.innerHTML;
+    }
+}
+
+function id(i) {
+    return document.findElementById(id);
+}
+
 function jslab_share() {
     var lines = [];
     var jslab_input_count = jslab_main.childElementCount;
