@@ -288,6 +288,14 @@ function jslab_init(prefix) {
     }
 }
 
+function inpel(index) {
+    return jslab_get_text_input(jslab_main.children[index]);
+}
+
+function outel(index) {
+    return jslab_get_output_div(jslab_main.children[index]);
+}
+
 function inp(index) {
     return jslab_get_text_input(jslab_main.children[index]).value;
 }
