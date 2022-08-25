@@ -9,5 +9,5 @@ The author was in need of a more capable calculator app than what's included wit
 
 # Screenshot
 
-![image](screenshot.PNG)
+![image](metadata/en-US/images/phoneScreenshots/1.png)
 
