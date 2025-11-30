@@ -85,7 +85,18 @@ function jslab_create_new_iopair_elements(jslab_parent_node, jslab_text) {
     jslab_input_wrapper_div.classList.add('input-wrapper');
 
     var jslab_text_input = document.createElement('textarea');
-    jslab_text_input.rows = 1;
+    let attributes ={
+        "rows" : 1,
+        "placeholder" : "input",
+        "autoCapitalize" : "none",
+        "autoCorrect" : "off",
+        "autoComplete" : "off",
+        "spellcheck" : false
+    }
+    for ( const [attrib, value] of Object.entries(attributes)) {
+        jslab_text_input.setAttribute(attrib,value)
+    }
+
     jslab_text_input.oninput = function() {
         jslab_text_input.style.height = "5px";
         jslab_text_input.style.height = (jslab_text_input.scrollHeight)+"px";
@@ -97,8 +108,6 @@ function jslab_create_new_iopair_elements(jslab_parent_node, jslab_text) {
     if (jslab_text) {
         jslab_text_input.value = jslab_text;
     }
-
-    jslab_text_input.setAttribute("placeholder", "input");
 
     var jslab_input_button_div = document.createElement('div');
     jslab_input_button_div.innerHTML = "☰";
