@@ -10,11 +10,18 @@ html {
     padding: 0.2em;
 }
 
+
 li {
     margin: 0.1em;
     padding: 0.1em;
 }
 
+#jslab_main .show_highlight {
+  box-shadow: 
+            inset 0 0 20px 8px rgba(155, 000, 246, 0.9),
+            0 0 5px 2px rgba(155, 0, 215, 0.7);
+  transition: box-shadow 120ms ease-in-out;
+}
 
 #per-input-menu-wrapper {
     text-size: xx-large;

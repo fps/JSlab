@@ -20,6 +20,7 @@ var topics = "<ul>"
 var aliases = "<ul>"
 + "<li>All functions in the Math object are available in the global namespace. Example: <b>sin</b>, <b>cos</b>, ...</li>"
 + "<li>All static properties in the Math object are available in the global namespace with their name converted to lowercase. Examples: <b>pi</b>, <b>e</b>, ...</li>"
++ "<li>The variable <code>$result</code> is set to the value provided to the the output box above </li>"
 + "</ul>";
 
 var introduction = "JSLab is a simple web page that has a thin android app as "
@@ -37,14 +38,21 @@ var evaluation = "The code is passed verbatim to eval() and the result is set as
 + "In that case the output DIV is replaced with the result. "
 + "Delete the input and press enter to delete an input/output pair. ";
 
-var examples = "<ul>"
-+ "<li>1</li>"
-+ "<li>1+1</li>"
-+ "<li>sin(0.12) + pow(0.1, 0.1111)</li>"
-+ "<li>f = x => 2*x+sin(x)</li>"
-+ "<li>f(21)"
-+ "<li>" + encode("'<input type=\"range\" id=\"foo\">'") + "</pre></li>";
+var examples = `<ul class="code_examples">
+<li><code>1</code></li>
+<li><code>1+1</code></li>
+<li><code>sin(0.12) + pow(0.1, 0.1111)</code></li>
+<li><code>$result+100</code></li>
+<li><code>f = x => 2*x+sin(x)</code></li>
+<li><code>f(21)</code></li>
+<li>${encode("'<input type=\"range\" id=\"foo\">'")}</li>
+<li><code>makeCanvas()</code></li>
+<li><code>$result.ctx.fillRect(30,30,200,100)</code></li>
+<li><code>plotFunction(sin)</code></li>
+<li><code>plotFunction(sin)</code></li>
 
+
+`
 var reserved = "All identifiers starting with the prefix <b>jslab_</b> are reserved.  "
 + "You are free to change any of them and nothing will stop you from "
 + "doing it, but beware that things will start to break eventually.";

@@ -3,12 +3,13 @@ plugins {
 }
 
 android {
-    compileSdk 31
+    namespace 'eu.dfdx.jslab'
+    compileSdk 35
 
     defaultConfig {
         applicationId "eu.dfdx.jslab"
         minSdk 21
-        targetSdk 31
+        targetSdk 35
         versionCode 1
         versionName "1.0"
 

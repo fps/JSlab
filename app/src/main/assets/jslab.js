@@ -5,6 +5,22 @@ var jslab_storage = window.localStorage;
 
 var jslab_current_input = null;
 
+function jslab_installHighlighter(detectElement,  highlightElement) {
+  function handlePointerDown(event) {
+    if (event.pointerType === 'mouse' && event.button !== 0) return;
+    highlightElement.classList.add('show_highlight');
+    // Remove highlight when the press ends anywhere
+    const handlePointerUp = () => {
+      highlightElement.classList.remove('show_highlight');
+      window.removeEventListener('pointerup', handlePointerUp);
+      window.removeEventListener('pointercancel', handlePointerUp);
+    };
+    window.addEventListener('pointerup', handlePointerUp);
+    window.addEventListener('pointercancel', handlePointerUp);
+  }
+  detectElement.addEventListener('pointerdown', handlePointerDown);
+}
+
 function jslab_el_by_id(id) {
     return document.getElementById(id);
 }
@@ -26,11 +42,11 @@ function jslab_create_output_element() {
 }
 
 function jslab_get_text_input(jslab_element) {
-    return jslab_element.children[0].children[0].children[0];
+    return jslab_element.querySelector('.input-field');
 }
 
 function jslab_get_output_div(jslab_element) {
-    return jslab_element.children[1];
+    return jslab_element.querySelector('.output');
 }
 
 function save(name) {
@@ -55,7 +71,7 @@ function load(name) {
     for (var index = 0; index < inputs.length; ++index) {
         console.log(inputs[index]);
         var new_element = jslab_append_new_iopair(jslab_main, inputs[index]);
-        jslab_get_text_input(new_element).onchange();
+        //jslab_get_text_input(new_element).onchange();
     }
 }
 
@@ -78,13 +94,13 @@ function jslab_create_new_iopair_elements(jslab_parent_node, jslab_text) {
     console.log("jslab_create_new_iopair_element");
     var jslab_iopair_div = document.createElement('div');
 
-    var jslab_input_form = document.createElement('form');
-    jslab_input_form.onsubmit = function() { };
+    //var jslab_input_form = document.createElement('form');
+    //jslab_input_form.onsubmit = function() { };
 
     var jslab_input_wrapper_div = document.createElement('div');
     jslab_input_wrapper_div.classList.add('input-wrapper');
 
-    var jslab_text_input = document.createElement('textarea');
+    var jslab_text_input = document.createElement('code-textarea');
     let attributes ={
         "rows" : 1,
         "placeholder" : "input",
@@ -97,32 +113,33 @@ function jslab_create_new_iopair_elements(jslab_parent_node, jslab_text) {
         jslab_text_input.setAttribute(attrib,value)
     }
 
-    jslab_text_input.oninput = function() {
-        jslab_text_input.style.height = "5px";
-        jslab_text_input.style.height = (jslab_text_input.scrollHeight)+"px";
-    };
+    //jslab_text_input.oninput = function() {
+    //    jslab_text_input.style.height = "5px";
+    //    jslab_text_input.style.height = (jslab_text_input.scrollHeight)+"px";
+    //};
 
-    jslab_text_input.onchange = jslab_text_input.oninput;
+    //jslab_text_input.onchange = jslab_text_input.oninput;
 
     jslab_text_input.classList.add('input-field')
     if (jslab_text) {
         jslab_text_input.value = jslab_text;
     }
 
-    var jslab_input_button_div = document.createElement('div');
-    jslab_input_button_div.innerHTML = "☰";
-    jslab_input_button_div.classList.add('input-button');
+    //var jslab_input_button_div = document.createElement('div');
+    //jslab_input_button_div.innerHTML = "☰";
+    //jslab_input_button_div.classList.add('input-button');
 
     // This first output div will never be visible. We just keep it around
     // to replace it later, possibly multiple times...
     var jslab_output_div = jslab_create_output_element();
     // o.innerText = "_";
 
-    jslab_iopair_div.appendChild(jslab_input_form);
-    jslab_input_form.appendChild(jslab_input_wrapper_div);
-    jslab_input_wrapper_div.appendChild(jslab_text_input);
-    jslab_input_wrapper_div.appendChild(jslab_input_button_div);
+    //jslab_iopair_div.appendChild(jslab_input_form);
+    //jslab_input_form.appendChild(jslab_input_wrapper_div);
+    //slab_input_wrapper_div.appendChild(jslab_text_input);
+    //jslab_input_wrapper_div.appendChild(jslab_input_button_div);
     // jslab_input_form.appendChild(jslab_text_input);
+    jslab_iopair_div.appendChild(jslab_text_input)
 
     jslab_iopair_div.appendChild(jslab_output_div);
 
@@ -137,6 +154,100 @@ function jslab_create_new_iopair(jslab_parent_node, jslab_text) {
     var jslab_text_input = jslab_get_text_input(jslab_iopair_div);
     var jslab_output = jslab_get_output_div(jslab_iopair_div);
 
+    function process_submit() {
+        jslab_store_inputs();
+
+        // textarea support: check if line starts with a whitespace:
+        var lines_before_caret = jslab_text_input.value.substr(0, jslab_text_input.selectionStart).split("\n");
+        // console.log(lines_before_caret);
+        // console.log(lines_before_caret[lines_before_caret.length - 1]);
+        var line_before_caret = lines_before_caret[lines_before_caret.length - 1];
+        var position = jslab_text_input.selectionStart;
+        if (line_before_caret.length > 0 && line_before_caret[0] === ' ') {
+            jslab_text_input.value = jslab_text_input.value.slice(0, position) + "\n" + jslab_text_input.value.slice(position);
+            jslab_text_input.selectionStart = position + 1;
+            jslab_text_input.selectionEnd = position + 1;
+            // jslab_text_input.value = jslab_text_input.value + "\n";
+            //jslab_text_input.onchange();
+            return false;
+        }
+
+        var jslab_new_output_div = jslab_create_output_element();
+
+        jslab_iopair_div.replaceChild(jslab_new_output_div, jslab_get_output_div(jslab_iopair_div));
+        jslab_new_output_div.classList.remove('hidden');
+
+        document.jslab_currentoutput = jslab_new_output_div;
+        document.jslab_lastOutput = jslab_iopair_div?.previousElementSibling?.querySelector('.output')
+        document.jslab_lastOutput = document.jslab_lastOutput?.out || document.jslab_lastOutput 
+        
+        var jslab_parent_node_len = jslab_parent_node.childElementCount;
+
+        try {
+            if (jslab_text_input.selectionStart == 0 && jslab_text_input.selectionEnd == 0) {
+                console.log("appending new iopair (selectionStart and selectionEnd == 0");
+                var jslab_new_input = jslab_create_new_iopair(jslab_main, '');
+                jslab_iopair_div.insertAdjacentElement('beforebegin', jslab_new_input);
+                // jslab_get_text_input(jslab_new_input).focus();
+                return false;
+            } else {
+                console.log("input is: " + jslab_text_input.value + " type: " + typeof(jslab_text_input.value));
+                console.log("calling eval(). output follows...");
+                evalContent=`{
+                    const $result= document.jslab_lastOutput;
+                    ${jslab_text_input.value}
+                }`
+                jslab_output = eval.call(null, evalContent);
+                console.log(jslab_output);
+                jslab_new_output_div.out = jslab_output;
+
+                if (jslab_output === null) {
+                    console.log("output null...");
+                    jslab_output = "null"
+                }
+
+                if (jslab_output === undefined) {
+                    console.log("output undefined...");
+                    jslab_output = "undefined"
+                }
+
+                if (jslab_output.tagName) {
+                    if (jslab_main.contains(jslab_output)) {
+                        jslab_new_output_div.innerHTML='Output already exists elsewhere, touch this output to highlight it';
+                        jslab_installHighlighter(jslab_new_output_div,jslab_output);
+                    } else {                    
+                        jslab_output.classList.add("output")
+                        jslab_iopair_div.replaceChild(jslab_output, jslab_new_output_div)
+                    }
+                } else {
+                    jslab_new_output_div.innerHTML = jslab_output;
+                }
+            }
+        } catch (error) {
+            console.log(error);
+            jslab_new_output_div.innerText = error;
+            jslab_new_output_div.classList.remove('hidden');
+        }
+        //
+
+        // If we're on the last input add a new one below...
+        var jslab_parent_node_len = jslab_parent_node.childElementCount;
+
+        if (jslab_iopair_div == jslab_parent_node.children[jslab_parent_node_len - 1]) {
+            var jslab_next = jslab_append_new_iopair(jslab_parent_node);
+        }
+
+        if (jslab_iopair_div.nextSibling != null) {
+            jslab_get_text_input(jslab_iopair_div.nextSibling).focus();
+            // jslab_get_text_input(jslab_iopair_div.nextSibling).scrollIntoView();
+        }
+
+        return false;
+        
+    } 
+
+    jslab_text_input.addEventListener("codesubmit",process_submit);
+
     jslab_text_input.onfocus = function() {
         Array.from(document.querySelectorAll('.per-input')).forEach(x => x.classList.remove('inactive'));
         Array.from(document.querySelectorAll('.per-input')).forEach(x => x.classList.add('active'));
@@ -149,6 +260,7 @@ function jslab_create_new_iopair(jslab_parent_node, jslab_text) {
         Array.from(document.querySelectorAll('.per-input')).forEach(x => x.classList.remove('active'));
         // console.log("focus out");
     };
+
 
     jslab_text_input.onkeydown = function(event) {
         var key = event.keyCode || event.charCode;
@@ -173,84 +285,7 @@ function jslab_create_new_iopair(jslab_parent_node, jslab_text) {
             return true;
         }
         if (key == 13) {
-            jslab_store_inputs();
-
-            // textarea support: check if line starts with a whitespace:
-            var lines_before_caret = jslab_text_input.value.substr(0, jslab_text_input.selectionStart).split("\n");
-            // console.log(lines_before_caret);
-            // console.log(lines_before_caret[lines_before_caret.length - 1]);
-            var line_before_caret = lines_before_caret[lines_before_caret.length - 1];
-            var position = jslab_text_input.selectionStart;
-            if (line_before_caret.length > 0 && line_before_caret[0] === ' ') {
-                jslab_text_input.value = jslab_text_input.value.slice(0, position) + "\n" + jslab_text_input.value.slice(position);
-                jslab_text_input.selectionStart = position + 1;
-                jslab_text_input.selectionEnd = position + 1;
-                // jslab_text_input.value = jslab_text_input.value + "\n";
-                jslab_text_input.onchange();
-                return false;
-            }
-
-            var jslab_new_output_div = jslab_create_output_element();
-
-            jslab_iopair_div.replaceChild(jslab_new_output_div, jslab_get_output_div(jslab_iopair_div));
-            jslab_new_output_div.classList.remove('hidden');
-
-            document.jslab_currentoutput = jslab_new_output_div;
-
-            var jslab_parent_node_len = jslab_parent_node.childElementCount;
-
-            try {
-                if (jslab_text_input.selectionStart == 0 && jslab_text_input.selectionEnd == 0) {
-                    console.log("appending new iopair (selectionStart and selectionEnd == 0");
-                    var jslab_new_input = jslab_create_new_iopair(jslab_main, '');
-                    jslab_iopair_div.insertAdjacentElement('beforebegin', jslab_new_input);
-                    // jslab_get_text_input(jslab_new_input).focus();
-                    return false;
-                } else {
-                    console.log("input is: " + jslab_text_input.value + " type: " + typeof(jslab_text_input.value));
-                    console.log("calling eval(). output follows...");
-                    jslab_output = eval.call(null, jslab_text_input.value);
-
-                    console.log(jslab_output);
-
-                    if (jslab_output === null) {
-                        console.log("output null...");
-                        jslab_output = "null"
-                    }
-
-                    if (jslab_output === undefined) {
-                        console.log("output undefined...");
-                        jslab_output = "undefined"
-                    }
-
-                    if (jslab_output.tagName) {
-                        // console.log('node!');
-                        jslab_iopair_div.replaceChild(jslab_output, jslab_new_output_div)
-                    } else {
-                        jslab_new_output_div.out = jslab_output;
-                        jslab_new_output_div.innerHTML = jslab_output;
-                    }
-                }
-            } catch (error) {
-                console.log(error);
-                jslab_new_output_div.innerText = error;
-                jslab_new_output_div.classList.remove('hidden');
-            }
-            //
-
-            // If we're on the last input add a new one below...
-            var jslab_parent_node_len = jslab_parent_node.childElementCount;
-
-            if (jslab_iopair_div == jslab_parent_node.children[jslab_parent_node_len - 1]) {
-                var jslab_next = jslab_append_new_iopair(jslab_parent_node);
-            }
-
-            if (jslab_iopair_div.nextSibling != null) {
-                jslab_get_text_input(jslab_iopair_div.nextSibling).focus();
-                // jslab_get_text_input(jslab_iopair_div.nextSibling).scrollIntoView();
-            }
-
-            return false;
+            //submit has own event now
         }
     }
 
@@ -259,6 +294,7 @@ function jslab_create_new_iopair(jslab_parent_node, jslab_text) {
 
     return jslab_iopair_div;
 }
+
 
 function jslab_append_new_iopair(jslab_parent_node, jslab_text) {
     console.log("jslab_append_new_iopair");
@@ -273,6 +309,7 @@ function jslab_append_new_iopair(jslab_parent_node, jslab_text) {
 
 function jslab_init(prefix) {
     jslab_prefix = prefix;
+
     if (jslab_storage.getItem('jslab_'+jslab_prefix+'_input_count') === null) {
 
        // Create the initial input form that starts it all...
@@ -291,36 +328,12 @@ function jslab_init(prefix) {
 
           // var jslab_input = jslab_append_new_input(jslab_main, jslab_storage.getItem('input'+jslab_count));
           var jslab_input = jslab_append_new_iopair(jslab_main, jslab_storage.getItem('jslab_'+prefix+'_input'+jslab_count));
-          jslab_get_text_input(jslab_input).onchange();
+          //jslab_get_text_input(jslab_input).onchange();
           // jslab_input.children[0].children[0].value = jslab_storage.getItem('input'+jslab_count);
        }
     }
 }
 
-function inpel(index) {
-    return jslab_get_text_input(jslab_main.children[index]);
-}
-
-function outel(index) {
-    return jslab_get_output_div(jslab_main.children[index]);
-}
-
-function inp(index) {
-    return jslab_get_text_input(jslab_main.children[index]).value;
-}
-
-function out(index) {
-    var d = jslab_get_output_div(jslab_main.children[index]);
-    if (d.childElementCount) {
-        return d.children[0];
-    } else {
-        return d.innerHTML;
-    }
-}
-
-function id(i) {
-    return document.findElementById(id);
-}
 
 function jslab_share() {
     var lines = [];
