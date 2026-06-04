@@ -1,5 +1,8 @@
 package eu.dfdx.jslab.ui.main;
 
+import android.content.ActivityNotFoundException;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -81,6 +84,24 @@ public class PlaceholderFragment extends Fragment {
                                         String description,
                                         String failingUrl) {
                 Log.e("io.fps.jslab", description);
+            }
+
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                if (url == null
+                        || url.startsWith("http://")
+                        || url.startsWith("https://")
+                        || url.startsWith("file://")) {
+                    return false;
+                }
+                try {
+                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    view.getContext().startActivity(intent);
+                    return true;
+                } catch (ActivityNotFoundException e) {
+                    return false;
+                }
             }
         });
 
